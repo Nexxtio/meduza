@@ -1,0 +1,22 @@
+{% extends "meduza/base.html" %}
+{% block content %}
+	{% if user.is_authenticated %}
+		{% for notification in notifications %}
+			{% if request.user == notification.user %}
+			<article class="media content-section">
+			  <div class="media-body">
+			    <div class="article-metadata">
+			      <!-- <small class="text-muted">{{ notification.date|date:"F d, Y" }}</small> -->
+			      <small class="text-muted">{{ notification.user }}</small>
+			    </div>
+			    <h2><a class="article-title" href="#">{{ notification.lek }}</a></h2>
+			    <p class="article-content">{{ notification.godzina }}</p>
+			  </div>
+			  <a href="{% url 'notification-delete' pk=notification.id %}"><button class="btn btn-outline-danger mt-5">Usuń</button></a>
+			</article>
+			{% endif %}
+		{% endfor %}
+	{% else %}
+		<p>Żeby korzystać ze strony musisz się <a href="{% url 'login' %}">zalogować</a> lub <a href="{% url 'register' %}">zarejestrować</a></p>
+	{% endif %}
+{% endblock content %}
